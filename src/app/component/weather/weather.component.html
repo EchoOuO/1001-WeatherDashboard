@@ -1,0 +1,70 @@
+<div class="wrapper">
+  <!-- search area -->
+  <label>Weather of ...</label>
+  <input
+    name="city"
+    type="text"
+    placeholder="Search 'City'"
+    (keyup)="onSearchingCity()"
+    [(ngModel)]="searchingText"
+  />
+
+  <div *ngIf="geogData && searchingText" class="searching-city-container">
+    <div *ngFor="let item of geogData">
+      <div
+        class="searching-city"
+        (click)="
+          searchWeather(item.name, item.country, item.lat, item.lon, item.state)
+        "
+      >
+        <p>{{ item.name }}</p>
+        <p>
+          <span *ngIf="item.state">{{ item.state }}, </span>
+          {{ item.country }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- display area -->
+  <div class="weather-display-container" *ngIf="weatherData">
+    <div class="current-city-info">
+      <h2>
+        {{ weatherData.name }}
+      </h2>
+      <p>
+        ({{ weatherData.state ? weatherData.state + "," : null }}
+        {{ weatherData.country }} )
+      </p>
+    </div>
+    <div class="current-weather-temp">
+      <h1>{{ weatherData.current.temp | number : "3.2-2" }} {{ tempUnit }}</h1>
+      <p>Feel like {{ weatherData.current.feels_like }} {{ tempUnit }}</p>
+    </div>
+    <h3>{{ weatherData.current.weather[0].main }}</h3>
+    <div class="current-weather-other">
+      <h4 class="current-weather-other-text current-weather-other-text-left">
+        Humidity: {{ weatherData.current.humidity }} %
+      </h4>
+      <h4 class="current-weather-other-text current-weather-other-text-right">
+        Wind Speed: {{ weatherData.current.wind_speed }} m/s
+      </h4>
+    </div>
+    <div class="daily-weather-container">
+      <div *ngFor="let dayWeather of weatherData.daily; let i = index">
+        <div class="daily-weather">
+          <p class="daily-weather-day">Day {{ i }}</p>
+          <p class="daily-weather-main">{{ dayWeather.weather[0].main }}</p>
+          <p class="daily-weather-temp">
+            {{ dayWeather.temp.min }} {{ tempUnit }} /
+            {{ dayWeather.temp.max }} {{ tempUnit }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="temp-unit-btn-container">
+      <label for="">Temperature Unit: </label>
+      <button (click)="onClickTemp()">{{ tempUnit }}</button>
+    </div>
+  </div>
+</div>

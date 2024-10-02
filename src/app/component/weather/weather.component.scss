@@ -1,0 +1,129 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  margin: 30px 0px;
+}
+
+input {
+  padding: 10px 15px;
+  border-radius: 10px;
+  border: solid 1px #999;
+  width: 70%;
+  max-width: 400px;
+}
+
+.searching-city-container {
+  width: 70%;
+  max-width: 400px;
+  height: auto;
+  padding: 10px;
+  border: solid 1px #999;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px #cecece;
+}
+
+.searching-city {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.searching-city:hover {
+  background-color: #d6d6d6;
+}
+
+.weather-display-container {
+  width: 70%;
+  padding: 15px;
+  margin: 50px 0px;
+  border: solid 1px #999;
+  border-radius: 20px;
+  box-shadow: 5px 5px 10px #cacaca;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+
+  position: relative;
+}
+
+.current-city-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-weather-temp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.current-weather-other {
+  display: flex;
+  gap: 10px;
+}
+
+.current-weather-other-text {
+}
+
+.current-weather-other-text-left {
+  border-right: solid 1px blue;
+  padding-right: 10px;
+}
+
+.current-weather-other-text-right {
+}
+
+.daily-weather-container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 5px;
+  border: solid 1px #999;
+  border-radius: 10px;
+}
+
+.daily-weather {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: 5px;
+}
+
+.daily-weather-day {
+  width: 45%;
+  text-align-last: left;
+}
+
+.daily-weather-main {
+  width: 10%;
+  text-align-last: center;
+}
+
+.daily-weather-temp {
+  width: 45%;
+  text-align-last: right;
+}
+
+.temp-unit-btn-container {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.temp-unit-btn-container button {
+  padding: 3px 6px;
+}
