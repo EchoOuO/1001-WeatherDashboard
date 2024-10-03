@@ -19,16 +19,23 @@ export class WeatherComponent {
   public isSearching = false;
   public searchingText = '';
 
-  public tempUnit = '℃';
+  public units = 'imperial';
+  public tempUnit = '℉';
+  public tempDecimals = '2.1-1';
+  public windSpeedUnit = 'mile/hr';
 
   constructor(private weatherService: WeatherService) {}
+
+  resetUnit(): void {
+    this.units = 'imperial';
+    this.tempUnit = '℉';
+    this.windSpeedUnit = 'mile/hr';
+  }
 
   onSearchingCity(): void {
     if (!this.searchingText) {
       return;
     }
-
-    console.log('Searching city: ', this.searchingText);
 
     if (this.searchingText.length > 2) this.searchGeog(this.searchingText);
   }
@@ -37,6 +44,7 @@ export class WeatherComponent {
       // Only when the response is not empty array, update geogData
       if (geog.length > 0) {
         this.geogData = geog;
+        console.log('Searching city: ', this.searchingText);
         console.log('City data: ', this.geogData);
       }
     });
@@ -46,31 +54,58 @@ export class WeatherComponent {
     country: string,
     lat: number,
     lon: number,
-    state?: string
+    state?: string,
+    units?: string
   ): void {
-    this.weatherService.getWeatherData(lat, lon).subscribe((weather) => {
+    this.weatherService.getWeatherData(lat, lon, units).subscribe((weather) => {
       this.weatherData = {
         name: name,
         state: state,
         country: country,
         ...weather,
       };
-      console.log('Weather data: ', this.weatherData);
+      console.log(`Weather data (units: ${this.units}): `, this.weatherData);
     });
 
     // when user select city by clicking then close searching area
     this.searchingText = '';
   }
 
-  onClickTemp(): void {
-    if (this.tempUnit === '℃') {
-      this.weatherData.current.temp =
-        (this.weatherData.current.temp * 9) / 5 + 32;
-      this.tempUnit = '℉';
-    } else {
-      this.weatherData.current.temp =
-        ((this.weatherData.current.temp - 32) * 5) / 9;
+  temperature_unit_C_to_F(temp: number): number {
+    return (temp * 9) / 5 + 32;
+  }
+
+  temperature_unit_F_to_C(temp: number): number {
+    return ((temp - 32) * 5) / 9;
+  }
+
+  onClickUnitsChange(): void {
+    if (this.units === 'imperial') {
+      this.units = 'metric';
       this.tempUnit = '℃';
+      this.windSpeedUnit = 'm/s';
+
+      this.searchWeather(
+        this.weatherData.name,
+        this.weatherData.country,
+        this.weatherData.lat,
+        this.weatherData.lon,
+        this.weatherData.state,
+        this.units
+      );
+    } else {
+      this.units = 'imperial';
+      this.tempUnit = '℉';
+      this.windSpeedUnit = 'mile/hr';
+
+      this.searchWeather(
+        this.weatherData.name,
+        this.weatherData.country,
+        this.weatherData.lat,
+        this.weatherData.lon,
+        this.weatherData.state,
+        this.units
+      );
     }
   }
 }

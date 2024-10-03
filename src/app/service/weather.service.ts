@@ -13,9 +13,9 @@ export class WeatherService {
 
   constructor(private http: HttpClient) {}
 
-  getWeatherData(lat: number, lon: number): Observable<any> {
+  getWeatherData(lat: number, lon: number, unit = 'imperial'): Observable<any> {
     return this.http.get(
-      `${this.weatherApiUrl}lat=${lat}&lon=${lon}&appid=${environment.apiKey}`
+      `${this.weatherApiUrl}lat=${lat}&lon=${lon}&units=${unit}&appid=${environment.apiKey}`
     );
   }
 
