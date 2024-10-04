@@ -1,0 +1,35 @@
+.msgModal {
+  min-width: 250px;
+  width: 300px;
+  height: auto;
+  padding: 10px 15px;
+  word-break: break-word;
+}
+
+// change backgroundcolor of msg modal based on condition (success / error)
+.msgModal-success {
+  background-color: #7ceeb5;
+}
+
+.msgModal-error {
+  background-color: #ee7c7c;
+}
+
+.close-btn-container {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.close-btn {
+  background-color: transparent;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+  transition: 0.25s;
+  color: white;
+}
+
+.close-btn:hover {
+  color: black;
+}

@@ -4,3 +4,30 @@
   margin: 0;
   box-sizing: border-box;
 }
+
+// to overwrite Angular Mateiral
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p {
+  margin: 0 !important;
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.msgModal-container {
+  position: fixed !important;
+  bottom: 40px;
+  left: 10px;
+  border-radius: 10px;
+}

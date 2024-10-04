@@ -1,0 +1,13 @@
+<div
+  class="mat-typography msgModal"
+  [ngClass]="{
+    'msgModal-error': data.condition === 'Error',
+    'msgModal-success': data.condition === 'Success'
+  }"
+>
+  <p mat-dialog-content *ngFor="let item of data.message">{{ item }}</p>
+
+  <div mat-dialog-actions class="close-btn-container">
+    <button mat-button (click)="closeDialig()" class="close-btn">X</button>
+  </div>
+</div>

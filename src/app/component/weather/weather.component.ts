@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { WeatherService } from '../../service/weather.service';
 import { Geog, Weather } from '../../type';
 import { FormsModule } from '@angular/forms';
+import { MsgService } from '../../service/msg.service';
 
 @Component({
   selector: 'app-weather',
@@ -24,7 +25,12 @@ export class WeatherComponent {
   public tempDecimals = '2.1-1';
   public windSpeedUnit = 'mile/hr';
 
-  constructor(private weatherService: WeatherService) {}
+  public isDisplaying = false;
+
+  constructor(
+    private weatherService: WeatherService,
+    private msgService: MsgService
+  ) {}
 
   resetUnit(): void {
     this.units = 'imperial';
@@ -40,14 +46,24 @@ export class WeatherComponent {
     if (this.searchingText.length > 2) this.searchGeog(this.searchingText);
   }
   searchGeog(city: string): void {
-    this.weatherService.getGeogData(city).subscribe((geog) => {
-      // Only when the response is not empty array, update geogData
-      if (geog.length > 0) {
-        this.geogData = geog;
-        console.log('Searching city: ', this.searchingText);
-        console.log('City data: ', this.geogData);
+    this.weatherService.getGeogData(city).subscribe(
+      (geog) => {
+        // Only when the response is not empty array, update geogData
+        if (geog.length > 0) {
+          this.geogData = geog;
+          console.log('Searching city: ', this.searchingText);
+          console.log('City data: ', this.geogData);
+        }
+        this.isSearching = true;
+      },
+      (error) => {
+        console.log('Error msg: ', error.message);
+        this.msgService.openMsgModal('Error', [
+          'Error! Please check console.',
+          `${error.message}`,
+        ]);
       }
-    });
+    );
   }
   searchWeather(
     name: string,
@@ -57,15 +73,34 @@ export class WeatherComponent {
     state?: string,
     units?: string
   ): void {
-    this.weatherService.getWeatherData(lat, lon, units).subscribe((weather) => {
-      this.weatherData = {
-        name: name,
-        state: state,
-        country: country,
-        ...weather,
-      };
-      console.log(`Weather data (units: ${this.units}): `, this.weatherData);
-    });
+    this.weatherService.getWeatherData(lat, lon, units).subscribe(
+      (weather) => {
+        this.weatherData = {
+          name: name,
+          state: state,
+          country: country,
+          ...weather,
+        };
+        console.log(`Weather data (units: ${this.units}): `, this.weatherData);
+
+        // while weather information is displaying, msg modal won't pop up if user changes units, but pop up if user searches another city
+        if (!this.isDisplaying || this.isSearching) {
+          this.msgService.openMsgModal('Success', [
+            'Success!',
+            `${name} ( ${state ? state + ',' : ''} ${country} )`,
+          ]);
+        }
+        this.isDisplaying = true;
+        this.isSearching = false;
+      },
+      (error) => {
+        console.log('Error msg: ', error.message);
+        this.msgService.openMsgModal('Error', [
+          'Error! Please check console.',
+          `${error.message}`,
+        ]);
+      }
+    );
 
     // when user select city by clicking then close searching area
     this.searchingText = '';
@@ -107,5 +142,6 @@ export class WeatherComponent {
         this.units
       );
     }
+    this.msgService.openMsgModal('Change', [`Change units to ${this.units}`]);
   }
 }
