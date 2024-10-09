@@ -5,7 +5,6 @@ import { FooterComponent } from './component/layout/footer/footer.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MsgModalComponent } from './component/msg-modal/msg-modal.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @Component({
   selector: 'app-root',

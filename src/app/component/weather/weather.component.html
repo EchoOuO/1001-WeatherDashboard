@@ -34,7 +34,13 @@
   </div>
 
   <!-- display area -->
-  <div class="weather-display-container" *ngIf="weatherData">
+  <div class="error-msg">
+    <p *ngIf="isError">Something Wrong :(</p>
+  </div>
+  <div class="loading-container" *ngIf="isLoading">
+    <mat-spinner color="primary"></mat-spinner>
+  </div>
+  <div class="weather-display-container" *ngIf="weatherData && !isLoading">
     <div class="current-city-info">
       <h2>
         {{ weatherData.name }}

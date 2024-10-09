@@ -26,6 +26,6 @@ export class MsgModalComponent {
   closeDialogDelayed(): void {
     setTimeout(() => {
       this.matDialogRef.close();
-    }, 2500);
+    }, 3000);
   }
 }

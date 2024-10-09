@@ -5,11 +5,17 @@ import { WeatherService } from '../../service/weather.service';
 import { Geog, Weather } from '../../type';
 import { FormsModule } from '@angular/forms';
 import { MsgService } from '../../service/msg.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @Component({
   selector: 'app-weather',
   standalone: true,
-  imports: [HttpClientModule, CommonModule, FormsModule],
+  imports: [
+    HttpClientModule,
+    CommonModule,
+    FormsModule,
+    MatProgressSpinnerModule,
+  ],
   templateUrl: './weather.component.html',
   styleUrl: './weather.component.scss',
 })
@@ -26,6 +32,8 @@ export class WeatherComponent {
   public windSpeedUnit = 'mile/hr';
 
   public isDisplaying = false;
+  public isLoading = false;
+  public isError = false;
 
   constructor(
     private weatherService: WeatherService,
@@ -62,6 +70,7 @@ export class WeatherComponent {
           'Error! Please check console.',
           `${error.message}`,
         ]);
+        this.isError = true;
       }
     );
   }
@@ -85,13 +94,18 @@ export class WeatherComponent {
 
         // while weather information is displaying, msg modal won't pop up if user changes units, but pop up if user searches another city
         if (!this.isDisplaying || this.isSearching) {
-          this.msgService.openMsgModal('Success', [
-            'Success!',
-            `${name} ( ${state ? state + ',' : ''} ${country} )`,
-          ]);
+          this.isLoading = true;
+          setTimeout(() => {
+            this.msgService.openMsgModal('Success', [
+              'Success!',
+              `${name} ( ${state ? state + ',' : ''} ${country} )`,
+            ]);
+
+            this.isLoading = false;
+            this.isDisplaying = true;
+            this.isSearching = false;
+          }, 1500);
         }
-        this.isDisplaying = true;
-        this.isSearching = false;
       },
       (error) => {
         console.log('Error msg: ', error.message);
@@ -99,6 +113,7 @@ export class WeatherComponent {
           'Error! Please check console.',
           `${error.message}`,
         ]);
+        this.isError = true;
       }
     );
 

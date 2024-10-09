@@ -38,10 +38,21 @@ input {
   background-color: #d6d6d6;
 }
 
+.error-msg {
+  color: rgb(212, 49, 49);
+  font-size: 1rem;
+
+  margin-top: 30px;
+}
+
+.loading-container {
+  margin-top: 200px;
+}
+
 .weather-display-container {
   width: 70%;
   padding: 15px;
-  margin: 50px 0px;
+  margin: 25px 0px;
   border: solid 1px #999;
   border-radius: 20px;
   box-shadow: 5px 5px 10px #cacaca;

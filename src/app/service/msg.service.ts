@@ -20,7 +20,7 @@ export class MsgService {
       hasBackdrop: false,
       position: { bottom: `${this.dialogCount * 80 + 40}px` },
       autoFocus: false,
-      panelClass: 'msgModal-container',
+      panelClass: 'msgModal-container', // styles.scss
     });
 
     this.dialogCount++;
